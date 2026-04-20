@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roscher – Garten & Landschaftsbau</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sage: {
+              50:  '#f2f7f4',
+              100: '#e0ede6',
+              200: '#c2d9cc',
+              300: '#9abfaa',
+              400: '#6b9080',
+              500: '#4e7563',
+              600: '#3c5d4e',
+              700: '#2f4a3e',
+              800: '#243831',
+              900: '#1a2b25',
+            },
+            cream: '#F5F0E8',
+            charcoal: '#2D2926',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'Georgia', 'serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E8; color: #2D2926; }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* Nav scroll effect */
+    #navbar {
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+    }
+    #navbar.scrolled {
+      background-color: rgba(245, 240, 232, 0.97);
+      box-shadow: 0 1px 0 rgba(45,41,38,0.08), 0 4px 24px rgba(45,41,38,0.06);
+    }
+
+    /* Hero */
+    .hero-img {
+      object-fit: cover;
+      object-position: center 30%;
+    }
+
+    /* Service cards */
+    .service-card {
+      transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 32px rgba(78,117,99,0.18), 0 2px 8px rgba(78,117,99,0.10);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background-color: #4e7563;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 2px 12px rgba(78,117,99,0.30);
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      background-color: #3c5d4e;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(78,117,99,0.38);
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:focus-visible { outline: 2px solid #9abfaa; outline-offset: 3px; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      border: 1.5px solid #fff;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-outline:hover {
+      background-color: rgba(255,255,255,0.12);
+      transform: translateY(-1px);
+    }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid rgba(255,255,255,0.6); outline-offset: 3px; }
+
+    /* Section headings */
+    .section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #4e7563;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: #2D2926;
+    }
+
+    /* Gallery hover */
+    .gallery-item { overflow: hidden; }
+    .gallery-item img {
+      transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .gallery-item:hover img { transform: scale(1.05); }
+
+    /* WhatsApp float button */
+    .whatsapp-fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 50;
+      width: 3.5rem;
+      height: 3.5rem;
+      background-color: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(37,211,102,0.45);
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+      text-decoration: none;
+    }
+    .whatsapp-fab:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 32px rgba(37,211,102,0.55);
+    }
+    .whatsapp-fab:active { transform: scale(0.96); }
+    .whatsapp-fab:focus-visible { outline: 2px solid #25D366; outline-offset: 3px; }
+
+    /* Divider leaf */
+    .divider-leaf {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #9abfaa;
+    }
+    .divider-leaf::before, .divider-leaf::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #c2d9cc, transparent);
+    }
+
+    /* Contact card */
+    .contact-card {
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(154,191,170,0.3);
+      box-shadow: 0 4px 32px rgba(45,41,38,0.08), 0 1px 4px rgba(45,41,38,0.04);
+    }
+
+    /* Smooth image load */
+    img { transition: opacity 0.3s ease; }
+  </style>
+</head>
+<body class="relative">
+
+  <!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 px-6 lg:px-12">
+    <div class="max-w-7xl mx-auto flex items-center justify-between h-20">
+      <!-- Logo + Name -->
+      <a href="#" class="flex items-center gap-3 group" aria-label="Roscher – Startseite">
+        <img src="brand_assets/Logo.jpeg" alt="Roscher Logo" class="w-12 h-12 rounded-full object-cover ring-2 ring-sage-300/60 group-hover:ring-sage-400 transition-all duration-200" />
+        <div>
+          <p class="font-display font-bold text-charcoal leading-none text-[1.05rem] tracking-[-0.01em]">Roscher</p>
+          <p class="text-[0.65rem] font-body font-medium text-sage-500 tracking-[0.12em] uppercase mt-0.5">Garten & Landschaftsbau</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-charcoal/80">
+        <a href="#leistungen" class="hover:text-sage-600 transition-colors duration-150 focus-visible:outline-none focus-visible:text-sage-600">Leistungen</a>
+        <a href="#ueber-uns" class="hover:text-sage-600 transition-colors duration-150 focus-visible:outline-none focus-visible:text-sage-600">Über uns</a>
+        <a href="#galerie" class="hover:text-sage-600 transition-colors duration-150 focus-visible:outline-none focus-visible:text-sage-600">Galerie</a>
+        <a href="#kontakt" class="hover:text-sage-600 transition-colors duration-150 focus-visible:outline-none focus-visible:text-sage-600">Kontakt</a>
+      </div>
+
+      <!-- CTA phone -->
+      <a href="tel:01715563728" class="hidden md:flex items-center gap-2 btn-primary text-sm py-2.5 px-5">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        0171 / 556 3728
+      </a>
+
+      <!-- Mobile menu button -->
+      <button id="menu-toggle" class="md:hidden p-2 rounded text-charcoal hover:text-sage-600 transition-colors" aria-label="Menü öffnen">
+        <svg id="icon-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg id="icon-close" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-cream/98 border-t border-sage-200/60 px-6 py-5 flex flex-col gap-4">
+      <a href="#leistungen" class="text-sm font-medium text-charcoal hover:text-sage-600 transition-colors" onclick="closeMobileMenu()">Leistungen</a>
+      <a href="#ueber-uns" class="text-sm font-medium text-charcoal hover:text-sage-600 transition-colors" onclick="closeMobileMenu()">Über uns</a>
+      <a href="#galerie" class="text-sm font-medium text-charcoal hover:text-sage-600 transition-colors" onclick="closeMobileMenu()">Galerie</a>
+      <a href="#kontakt" class="text-sm font-medium text-charcoal hover:text-sage-600 transition-colors" onclick="closeMobileMenu()">Kontakt</a>
+      <a href="tel:01715563728" class="btn-primary w-full justify-center mt-1">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        Jetzt anrufen
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+  <section class="relative h-screen min-h-[640px] flex items-end overflow-hidden">
+    <!-- Background photo -->
+    <img
+      src="brand_assets/WhatsApp Image 2026-04-20 at 11.35.44.jpeg"
+      alt="Roscher bei der Arbeit"
+      class="hero-img absolute inset-0 w-full h-full object-cover"
+    />
+
+    <!-- Gradient layers -->
+    <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-charcoal/30 to-transparent"></div>
+    <!-- Color tint layer -->
+    <div class="absolute inset-0 mix-blend-multiply opacity-30" style="background:linear-gradient(135deg,#2f4a3e,transparent 60%)"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-20 lg:pb-28">
+      <div class="max-w-2xl">
+        <p class="section-label text-sage-300 mb-4">Garten & Landschaftsbau · Bisterschied</p>
+        <h1 class="font-display text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-[-0.03em] mb-6">
+          Ihr Garten.<br />
+          <em class="not-italic text-sage-300">Unsere Leidenschaft.</em>
+        </h1>
+        <p class="font-body text-white/80 text-lg leading-relaxed mb-10 max-w-lg">
+          Professionelle Grünpflege, Winterdienst und Hausmeisterservice – zuverlässig, sorgfältig und fair. Direkt aus der Region.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#kontakt" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            Jetzt anfragen
+          </a>
+          <a href="#leistungen" class="btn-outline">
+            Alle Leistungen
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 opacity-60">
+      <span class="text-white/60 text-xs tracking-widest uppercase font-body">Entdecken</span>
+      <svg class="text-white animate-bounce w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════ TRUST BAR ═══════════════════════════ -->
+  <div class="bg-sage-700 text-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-5">
+      <div class="flex flex-wrap justify-center md:justify-between items-center gap-6 text-sm font-body">
+        <div class="flex items-center gap-2.5">
+          <svg class="text-sage-300 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="text-white/90 font-medium">Kostenlose Erstberatung</span>
+        </div>
+        <div class="hidden md:block w-px h-4 bg-white/20"></div>
+        <div class="flex items-center gap-2.5">
+          <svg class="text-sage-300 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="text-white/90 font-medium">Zuverlässig & pünktlich</span>
+        </div>
+        <div class="hidden md:block w-px h-4 bg-white/20"></div>
+        <div class="flex items-center gap-2.5">
+          <svg class="text-sage-300 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="text-white/90 font-medium">Faire Preise</span>
+        </div>
+        <div class="hidden md:block w-px h-4 bg-white/20"></div>
+        <div class="flex items-center gap-2.5">
+          <svg class="text-sage-300 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="text-white/90 font-medium">Region Bisterschied & Umgebung</span>
+        </div>
+        <div class="hidden md:block w-px h-4 bg-white/20"></div>
+        <div class="flex items-center gap-2.5">
+          <svg class="text-sage-300 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="text-white/90 font-medium">Erreichbar per WhatsApp</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════ LEISTUNGEN ═══════════════════════════ -->
+  <section id="leistungen" class="py-24 lg:py-32 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+      <!-- Heading -->
+      <div class="text-center mb-16">
+        <p class="section-label mb-3">Was ich anbiete</p>
+        <h2 class="section-title text-3xl sm:text-4xl lg:text-5xl mb-5">Meine Leistungen</h2>
+        <div class="divider-leaf">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6 2 2 6 2 12s4 10 10 10 10-4 10-10S18 2 12 2z"/><path d="M12 2c0 0 4 4 4 10s-4 10-4 10"/><path d="M2 12h20"/></svg>
+        </div>
+        <p class="mt-5 text-charcoal/65 font-body text-base leading-relaxed max-w-xl mx-auto">
+          Vom gepflegten Rasen bis zum aufgeräumten Hof – ich kümmere mich um alles rund um Ihr Grundstück. Persönlich, sorgfältig und zu fairen Preisen.
+        </p>
+      </div>
+
+      <!-- Service grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1 Grünanlagenpflege -->
+        <div class="service-card bg-white rounded-sm p-8 border border-sage-100/80 cursor-default" style="box-shadow:0 2px 16px rgba(78,117,99,0.08),0 1px 4px rgba(78,117,99,0.05)">
+          <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-6" style="background:linear-gradient(135deg,#e0ede6,#c2d9cc)">
+            <svg class="text-sage-600" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 010 20"/><path d="M12 2c0 0-5 5-5 10s5 10 5 10"/><path d="M2 12h20"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl text-charcoal mb-3 tracking-[-0.01em]">Grünanlagenpflege</h3>
+          <p class="font-body text-charcoal/65 text-sm leading-[1.75]">Rasenmähen, Hecken schneiden, Beete pflegen, Bäume zurückschneiden – Ihr Garten in Bestform das ganze Jahr.</p>
+        </div>
+
+        <!-- 2 Winterdienst -->
+        <div class="service-card bg-white rounded-sm p-8 border border-sage-100/80 cursor-default" style="box-shadow:0 2px 16px rgba(78,117,99,0.08),0 1px 4px rgba(78,117,99,0.05)">
+          <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-6" style="background:linear-gradient(135deg,#e0ede6,#c2d9cc)">
+            <svg class="text-sage-600" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="2" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl text-charcoal mb-3 tracking-[-0.01em]">Winterdienst</h3>
+          <p class="font-body text-charcoal/65 text-sm leading-[1.75]">Schneeräumen und Streuen auf Gehwegen, Einfahrten und Hofflächen – zuverlässig und sicher auch bei Frost.</p>
+        </div>
+
+        <!-- 3 Hausmeistertätigkeiten -->
+        <div class="service-card bg-white rounded-sm p-8 border border-sage-100/80 cursor-default" style="box-shadow:0 2px 16px rgba(78,117,99,0.08),0 1px 4px rgba(78,117,99,0.05)">
+          <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-6" style="background:linear-gradient(135deg,#e0ede6,#c2d9cc)">
+            <svg class="text-sage-600" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl text-charcoal mb-3 tracking-[-0.01em]">Kleine Hausmeistertätigkeiten</h3>
+          <p class="font-body text-charcoal/65 text-sm leading-[1.75]">Kleinere Reparaturen, Kontrollgänge und handwerkliche Tätigkeiten rund ums Haus und Grundstück.</p>
+        </div>
+
+        <!-- 4 Gehwege & Hofflächen -->
+        <div class="service-card bg-white rounded-sm p-8 border border-sage-100/80 cursor-default" style="box-shadow:0 2px 16px rgba(78,117,99,0.08),0 1px 4px rgba(78,117,99,0.05)">
+          <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-6" style="background:linear-gradient(135deg,#e0ede6,#c2d9cc)">
+            <svg class="text-sage-600" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl text-charcoal mb-3 tracking-[-0.01em]">Säubern von Gehwegen & Hofflächen</h3>
+          <p class="font-body text-charcoal/65 text-sm leading-[1.75]">Reinigung von Pflasterflächen, Einfahrten, Wegen und Höfen – sauber und gepflegt das ganze Jahr.</p>
+        </div>
+
+        <!-- 5 Entrümpelung -->
+        <div class="service-card bg-white rounded-sm p-8 border border-sage-100/80 cursor-default" style="box-shadow:0 2px 16px rgba(78,117,99,0.08),0 1px 4px rgba(78,117,99,0.05)">
+          <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-6" style="background:linear-gradient(135deg,#e0ede6,#c2d9cc)">
+            <svg class="text-sage-600" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl text-charcoal mb-3 tracking-[-0.01em]">Entrümpelung & Aufräumen</h3>
+          <p class="font-body text-charcoal/65 text-sm leading-[1.75]">Kleine Entrümpelungs- und Aufräumarbeiten – schnell und diskret erledigt, damit Sie wieder Platz haben.</p>
+        </div>
+
+        <!-- 6 CTA card -->
+        <div class="service-card rounded-sm p-8 flex flex-col justify-between cursor-default" style="background:linear-gradient(135deg,#3c5d4e,#2f4a3e);box-shadow:0 4px 24px rgba(47,74,62,0.35),0 1px 4px rgba(47,74,62,0.15)">
+          <div>
+            <p class="font-body text-sage-300 text-xs tracking-widest uppercase mb-4">Ihr Anliegen</p>
+            <h3 class="font-display font-bold text-2xl text-white mb-4 leading-tight tracking-[-0.02em]">Noch Fragen? Ich berate Sie gerne.</h3>
+            <p class="font-body text-white/70 text-sm leading-[1.75]">Einfach anrufen oder eine WhatsApp schicken – ich melde mich schnell zurück.</p>
+          </div>
+          <a href="tel:01715563728" class="mt-8 inline-flex items-center gap-2 bg-white text-sage-700 font-semibold text-sm px-5 py-3 rounded-sm hover:bg-sage-50 transition-colors duration-150 w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            0171 / 556 3728
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════ ÜBER UNS ═══════════════════════════ -->
+  <section id="ueber-uns" class="py-24 lg:py-32" style="background:linear-gradient(160deg,#e0ede6 0%,#F5F0E8 50%,#e8f0eb 100%)">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+        <!-- Text -->
+        <div>
+          <p class="section-label mb-3">Über mich</p>
+          <h2 class="section-title text-3xl sm:text-4xl lg:text-5xl mb-6">Handwerk mit<br /><em class="not-italic text-sage-500">Herz & Hand.</em></h2>
+          <p class="font-body text-charcoal/70 text-base leading-[1.8] mb-5">
+            Ich bin Roscher – ein Garten- und Landschaftsbauer aus Bisterschied mit echter Leidenschaft für gepflegte Grünflächen und ordentliche Grundstücke. Was ich anfasse, mache ich richtig.
+          </p>
+          <p class="font-body text-charcoal/70 text-base leading-[1.8] mb-8">
+            Ob Ihr Garten regelmäßig gepflegt werden soll, Schnee vor Ihrer Tür liegt oder einfach mal aufgeräumt werden muss – ich bin zuverlässig, pünktlich und direkt aus der Region.
+          </p>
+
+          <!-- Stats -->
+          <div class="flex gap-10 mb-10">
+            <div>
+              <p class="font-display font-bold text-3xl text-sage-600 tracking-tight">100%</p>
+              <p class="font-body text-xs text-charcoal/55 uppercase tracking-widest mt-1">Zuverlässigkeit</p>
+            </div>
+            <div class="w-px bg-sage-200"></div>
+            <div>
+              <p class="font-display font-bold text-3xl text-sage-600 tracking-tight">Lokal</p>
+              <p class="font-body text-xs text-charcoal/55 uppercase tracking-widest mt-1">Aus der Region</p>
+            </div>
+            <div class="w-px bg-sage-200"></div>
+            <div>
+              <p class="font-display font-bold text-3xl text-sage-600 tracking-tight">Fair</p>
+              <p class="font-body text-xs text-charcoal/55 uppercase tracking-widest mt-1">Faire Preise</p>
+            </div>
+          </div>
+
+          <a href="#kontakt" class="btn-primary">
+            Kostenlos anfragen
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <!-- Image + badge -->
+        <div class="relative">
+          <div class="gallery-item rounded-sm overflow-hidden" style="box-shadow:0 8px 48px rgba(45,41,38,0.15),0 2px 12px rgba(45,41,38,0.08)">
+            <img
+              src="brand_assets/WhatsApp Image 2026-04-20 at 11.35.44.jpeg"
+              alt="Roscher bei der Arbeit"
+              class="w-full h-[460px] object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/30 to-transparent pointer-events-none"></div>
+          </div>
+
+          <!-- Floating badge -->
+          <div class="absolute -bottom-6 -left-6 contact-card rounded-sm px-6 py-5" style="box-shadow:0 8px 32px rgba(78,117,99,0.18)">
+            <img src="brand_assets/Logo.jpeg" alt="Roscher Logo" class="w-14 h-14 rounded-full object-cover mx-auto mb-3 ring-2 ring-sage-300" />
+            <p class="font-display font-semibold text-sm text-charcoal text-center tracking-tight">Roscher</p>
+            <p class="font-body text-xs text-sage-600 text-center mt-0.5">Garten & Landschaftsbau</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════ GALERIE ═══════════════════════════ -->
+  <section id="galerie" class="py-24 lg:py-32 bg-cream">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+      <div class="text-center mb-14">
+        <p class="section-label mb-3">Einblicke</p>
+        <h2 class="section-title text-3xl sm:text-4xl lg:text-5xl mb-4">Galerie</h2>
+        <p class="font-body text-charcoal/60 text-base max-w-md mx-auto leading-relaxed">Bilder aus meiner täglichen Arbeit – weil Ergebnisse für sich sprechen.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Row 1: large left + small right -->
+        <div class="gallery-item rounded-sm overflow-hidden lg:col-span-2" style="box-shadow:0 4px 24px rgba(45,41,38,0.10)">
+          <img src="brand_assets/Referenzbild 1.png" alt="Fensterladen-Montage an historischem Steinhaus" class="w-full h-72 object-cover object-[center_20%]" />
+        </div>
+        <div class="gallery-item rounded-sm overflow-hidden" style="box-shadow:0 4px 24px rgba(45,41,38,0.10)">
+          <img src="brand_assets/Referenzbild 2.png" alt="Dachrinne reinigen – Laubentfernung" class="w-full h-72 object-cover object-center" />
+        </div>
+        <!-- Row 2: small left + large right -->
+        <div class="gallery-item rounded-sm overflow-hidden" style="box-shadow:0 4px 24px rgba(45,41,38,0.10)">
+          <img src="brand_assets/WhatsApp Image 2026-04-20 at 11.35.44.jpeg" alt="Arbeiten an der Fassadenbegrünung" class="w-full h-72 object-cover object-center" />
+        </div>
+        <div class="gallery-item rounded-sm overflow-hidden lg:col-span-2" style="box-shadow:0 4px 24px rgba(45,41,38,0.10)">
+          <img src="brand_assets/Referenzbild3.png" alt="Dacharbeiten an historischem Fachwerkhaus" class="w-full h-72 object-cover object-[center_20%]" />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════ KONTAKT ═══════════════════════════ -->
+  <section id="kontakt" class="py-24 lg:py-32 relative overflow-hidden" style="background:linear-gradient(160deg,#2f4a3e 0%,#1a2b25 100%)">
+    <!-- Radial glow -->
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none opacity-20" style="background:radial-gradient(circle,#7B9E87,transparent 65%);transform:translate(30%,-30%)"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none opacity-15" style="background:radial-gradient(circle,#9abfaa,transparent 65%);transform:translate(-30%,30%)"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+
+        <!-- Left: heading + info -->
+        <div>
+          <p class="section-label text-sage-400 mb-3">Kontakt</p>
+          <h2 class="font-display font-bold text-white text-3xl sm:text-4xl lg:text-5xl leading-[1.1] tracking-[-0.03em] mb-6">
+            Lassen Sie uns<br />
+            <em class="not-italic text-sage-300">ins Gespräch kommen.</em>
+          </h2>
+          <p class="font-body text-white/65 text-base leading-[1.8] mb-10">
+            Kein langes Warten, keine Formulare – einfach anrufen oder per WhatsApp schreiben. Ich freue mich auf Ihre Anfrage.
+          </p>
+
+          <!-- Contact items -->
+          <div class="flex flex-col gap-6">
+            <a href="tel:01715563728" class="flex items-center gap-4 group">
+              <div class="w-12 h-12 rounded-sm flex items-center justify-center flex-shrink-0 bg-sage-700/60 group-hover:bg-sage-600/80 transition-colors duration-150">
+                <svg class="text-sage-300" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+              </div>
+              <div>
+                <p class="font-body text-xs text-white/40 uppercase tracking-widest mb-0.5">Telefon / WhatsApp</p>
+                <p class="font-display font-semibold text-white text-xl tracking-tight group-hover:text-sage-300 transition-colors duration-150">0171 / 556 3728</p>
+              </div>
+            </a>
+
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-sm flex items-center justify-center flex-shrink-0 bg-sage-700/60">
+                <svg class="text-sage-300" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <p class="font-body text-xs text-white/40 uppercase tracking-widest mb-0.5">Adresse</p>
+                <p class="font-body text-white/90 text-base">Hauptstraße 64</p>
+                <p class="font-body text-white/90 text-base">67806 Bisterschied</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- WhatsApp CTA -->
+          <a
+            href="https://wa.me/491715563728"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-10 inline-flex items-center gap-3 px-6 py-4 rounded-sm font-body font-semibold text-white text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
+            style="background:#25D366;box-shadow:0 4px 24px rgba(37,211,102,0.35)"
+            onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 32px rgba(37,211,102,0.45)'"
+            onmouseout="this.style.transform='';this.style.boxShadow='0 4px 24px rgba(37,211,102,0.35)'"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Jetzt per WhatsApp schreiben
+          </a>
+        </div>
+
+        <!-- Right: contact card -->
+        <div class="contact-card rounded-sm p-8 lg:p-10">
+          <div class="flex items-center gap-4 mb-8">
+            <img src="brand_assets/Logo.jpeg" alt="Roscher Logo" class="w-16 h-16 rounded-full object-cover ring-2 ring-sage-300/50" />
+            <div>
+              <h3 class="font-display font-bold text-xl text-charcoal tracking-tight">Roscher</h3>
+              <p class="font-body text-sm text-sage-600 mt-0.5">Garten & Landschaftsbau</p>
+            </div>
+          </div>
+
+          <div class="space-y-4 mb-8">
+            <p class="font-body text-sm font-semibold text-charcoal uppercase tracking-widest">Meine Leistungen im Überblick</p>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3">
+                <svg class="text-sage-500 flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span class="font-body text-sm text-charcoal/80 leading-snug">Grünanlagenpflege</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="text-sage-500 flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span class="font-body text-sm text-charcoal/80 leading-snug">Winterdienst</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="text-sage-500 flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span class="font-body text-sm text-charcoal/80 leading-snug">Kleine Hausmeistertätigkeiten</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="text-sage-500 flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span class="font-body text-sm text-charcoal/80 leading-snug">Säubern von Gehwegen und Hofflächen</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="text-sage-500 flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span class="font-body text-sm text-charcoal/80 leading-snug">Kleine Entrümpelungs- und Aufräumarbeiten</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="border-t border-sage-200/60 pt-6 space-y-3">
+            <a href="tel:01715563728" class="flex items-center gap-3 px-5 py-3.5 bg-sage-600 text-white rounded-sm font-body font-semibold text-sm hover:bg-sage-700 transition-colors duration-150 justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-400">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+              Anrufen: 0171 / 556 3728
+            </a>
+            <a href="https://wa.me/491715563728" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-5 py-3.5 border border-sage-300/50 text-charcoal rounded-sm font-body font-medium text-sm hover:border-sage-400 hover:bg-sage-50 transition-colors duration-150 justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-400">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" class="text-green-600"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp schreiben
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+  <footer class="bg-charcoal py-10">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="brand_assets/Logo.jpeg" alt="Roscher Logo" class="w-10 h-10 rounded-full object-cover opacity-80" />
+        <div>
+          <p class="font-display font-semibold text-white text-sm">Roscher – Garten & Landschaftsbau</p>
+          <p class="font-body text-xs text-white/40 mt-0.5">Hauptstraße 64 · 67806 Bisterschied</p>
+        </div>
+      </div>
+      <p class="font-body text-xs text-white/30 text-center">
+        &copy; 2026 Roscher Garten & Landschaftsbau · Alle Rechte vorbehalten
+      </p>
+      <div class="flex items-center gap-5">
+        <a href="tel:01715563728" class="font-body text-xs text-sage-400 hover:text-sage-300 transition-colors">0171 / 556 3728</a>
+        <span class="text-white/20">·</span>
+        <a href="impressum.html" class="font-body text-xs text-sage-400 hover:text-sage-300 transition-colors">Impressum</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════ WHATSAPP FAB ═══════════════════════════ -->
+  <a href="https://wa.me/491715563728" target="_blank" rel="noopener noreferrer" class="whatsapp-fab" aria-label="WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+
+  <!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    }, { passive: true });
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden', isOpen);
+      iconOpen.classList.toggle('hidden', !isOpen);
+      iconClose.classList.toggle('hidden', isOpen);
+    });
+    function closeMobileMenu() {
+      mobileMenu.classList.add('hidden');
+      iconOpen.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

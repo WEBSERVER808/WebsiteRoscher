@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impressum – Roscher Garten & Landschaftsbau</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sage: {
+              50:  '#f2f7f4',
+              100: '#e0ede6',
+              200: '#c2d9cc',
+              300: '#9abfaa',
+              400: '#6b9080',
+              500: '#4e7563',
+              600: '#3c5d4e',
+              700: '#2f4a3e',
+              800: '#243831',
+              900: '#1a2b25',
+            },
+            cream: '#F5F0E8',
+            charcoal: '#2D2926',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'Georgia', 'serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background-color: #F5F0E8; color: #2D2926; }
+    .section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #4e7563;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    h3 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: #2D2926;
+    }
+    a { transition: color 0.15s ease; }
+    a:focus-visible { outline: 2px solid #4e7563; outline-offset: 2px; border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="bg-cream/95 border-b border-sage-200/60 sticky top-0 z-40 px-6 lg:px-12" style="box-shadow:0 1px 0 rgba(45,41,38,0.06),0 2px 12px rgba(45,41,38,0.04)">
+    <div class="max-w-4xl mx-auto flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <img src="brand_assets/Logo.jpeg" alt="Roscher Logo" class="w-9 h-9 rounded-full object-cover ring-2 ring-sage-300/50 group-hover:ring-sage-400 transition-all duration-200" />
+        <div>
+          <p class="font-display font-bold text-charcoal text-sm leading-none">Roscher</p>
+          <p class="text-[0.6rem] font-body font-medium text-sage-500 tracking-[0.1em] uppercase mt-0.5">Garten & Landschaftsbau</p>
+        </div>
+      </a>
+      <a href="index.html" class="flex items-center gap-2 text-sm font-medium text-charcoal/70 hover:text-sage-600 transition-colors">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Zurück zur Website
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- ═══ CONTENT ═══ -->
+  <main class="max-w-3xl mx-auto px-6 lg:px-12 py-16 lg:py-24">
+
+    <p class="section-label mb-3">Rechtliches</p>
+    <h2 class="text-4xl lg:text-5xl text-charcoal mb-2 leading-tight">Impressum</h2>
+    <p class="text-sm text-charcoal/45 mb-12">Angaben gemäß § 5 Telemediengesetz (TMG)</p>
+
+    <div class="space-y-10 divide-y divide-sage-200/60">
+
+      <!-- Anbieter -->
+      <div class="pt-0">
+        <h3 class="text-sm uppercase tracking-widest text-sage-600 mb-4">Diensteanbieter</h3>
+        <p class="text-base text-charcoal/85 leading-relaxed">
+          Roger Robert Liot<br />
+          Garten &amp; Landschaftsbau<br />
+          Hauptstraße 64<br />
+          67806 Bisterschied<br />
+          Deutschland
+        </p>
+      </div>
+
+      <!-- Kontakt -->
+      <div class="pt-8">
+        <h3 class="text-sm uppercase tracking-widest text-sage-600 mb-4">Kontakt</h3>
+        <div class="space-y-2 text-base text-charcoal/85 leading-relaxed">
+          <p>
+            Telefon:&nbsp;
+            <a href="tel:01715563728" class="text-sage-600 hover:text-sage-700 font-medium">0171 / 556 3728</a>
+          </p>
+          <p>
+            WhatsApp:&nbsp;
+            <a href="https://wa.me/491715563728" target="_blank" rel="noopener noreferrer" class="text-sage-600 hover:text-sage-700 font-medium">0171 / 556 3728</a>
+          </p>
+          <p class="text-charcoal/50 text-sm italic">
+            E-Mail: [Bitte E-Mail-Adresse eintragen – gesetzlich vorgeschrieben]
+          </p>
+        </div>
+      </div>
+
+      <!-- Berufsbezeichnung -->
+      <div class="pt-8">
+        <h3 class="text-sm uppercase tracking-widest text-sage-600 mb-4">Berufsbezeichnung &amp; berufsrechtliche Regelungen</h3>
+        <p class="text-base text-charcoal/85 leading-relaxed">
+          Berufsbezeichnung: Garten- und Landschaftsbauer<br />
+          Verliehen in: Deutschland<br />
+          Zuständige Kammer: Handwerkskammer Rheinhessen-Nahe<br />
+          Weitere Kammern / Verbände: gegebenenfalls ergänzen
+        </p>
+      </div>
+
+
+    </div>
+  </main>
+
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="bg-charcoal py-8 mt-8">
+    <div class="max-w-4xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="font-body text-xs text-white/30">&copy; 2026 Roscher Garten & Landschaftsbau · Alle Rechte vorbehalten</p>
+      <div class="flex items-center gap-5">
+        <a href="index.html" class="font-body text-xs text-sage-400 hover:text-sage-300 transition-colors">Zurück zur Website</a>
+        <span class="text-white/20">·</span>
+        <a href="tel:01715563728" class="font-body text-xs text-sage-400 hover:text-sage-300 transition-colors">0171 / 556 3728</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
